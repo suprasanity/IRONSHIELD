@@ -19,16 +19,12 @@ public class Finder {
     Mail mail;
 
     Logger logger = LoggerFactory.getLogger(Finder.class);
-    public static final String PATTERN = "sshd.*" ;
-    @Value("${file.Path}")
-    public String fileName;
-
     @Scheduled(fixedRate = 1000000)
     public void readFile() {
         Boolean finded = false;
 StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Runtime.getRuntime().exec(String.format("findstr \"%s\" \"%s\"", PATTERN, fileName))
+                Runtime.getRuntime().exec("journalctl | grep 'Accepted publickey\\|Accepted password'")
                         .getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -38,7 +34,8 @@ StringBuilder sb = new StringBuilder();
 
             }
             addLineToFile(sb);
-            if(finded){ mail.send("yann.jeanmaire@gmail.com","rapport log critique ","Bonjour yann ",new File("C:\\Users\\jeanm\\Downloads\\log.txt"));}
+            if(finded){
+                mail.send("yann.jeanmaire@gmail.com","rapport log critique ","Bonjour yann ",new File("\\log.txt"));}
 
         } catch (IOException e) {
                 logger.error(e.getMessage());
@@ -47,7 +44,7 @@ StringBuilder sb = new StringBuilder();
     }
     public void addLineToFile(StringBuilder line) throws IOException {
 
-            File file = new File("C:\\Users\\jeanm\\Downloads\\log.txt");
+            File file = new File("\\log.txt");
             try (FileWriter writer = new FileWriter(file,true)) {
                 if (!file.exists()) { // if file does not exist, create it
                     file.createNewFile();
