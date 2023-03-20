@@ -18,11 +18,11 @@ public class Finder {
     @Autowired
     Mail mail;
 
+    Logger logger = LoggerFactory.getLogger(Finder.class);
     public static final String PATTERN = "sshd.*session opened for user.*";
 
     public String fileName="./file";
 
-    Logger logger = LoggerFactory.getLogger(Finder.class);
     @Scheduled(fixedRate = 1000000)
     public void readFile() {
         Boolean finded = false;
@@ -32,6 +32,7 @@ StringBuilder sb = new StringBuilder();
                         .getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                logger.info(line);
                 sb.append(line);
                 sb.append('\n');
                 finded=true;
