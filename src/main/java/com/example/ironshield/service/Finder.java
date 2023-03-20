@@ -18,7 +18,7 @@ public class Finder {
     @Autowired
     Mail mail;
 
-    public static final String PATTERN = "sshd.*" ;
+    public static final String PATTERN = "sshd.*session opened for user.*";
 
     public String fileName="./file";
 
@@ -28,7 +28,7 @@ public class Finder {
         Boolean finded = false;
 StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Runtime.getRuntime().exec(String.format("findstr \"%s\" \"%s\"", PATTERN, fileName))
+                Runtime.getRuntime().exec(String.format("grep \"%s\" \"%s\"", PATTERN, fileName))
                         .getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
