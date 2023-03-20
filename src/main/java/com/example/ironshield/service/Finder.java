@@ -49,7 +49,7 @@ StringBuilder sb = new StringBuilder();
     }
     public void addLineToFile(StringBuilder line) throws IOException {
 
-            File file = new File("\\log.txt");
+            File file = new File("log.txt");
             try (FileWriter writer = new FileWriter(file,true)) {
                 if (!file.exists()) { // if file does not exist, create it
                     file.createNewFile();
