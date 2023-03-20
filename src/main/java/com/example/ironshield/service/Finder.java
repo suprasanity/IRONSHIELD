@@ -18,13 +18,17 @@ public class Finder {
     @Autowired
     Mail mail;
 
+    public static final String PATTERN = "sshd.*" ;
+
+    public String fileName="./file";
+
     Logger logger = LoggerFactory.getLogger(Finder.class);
     @Scheduled(fixedRate = 1000000)
     public void readFile() {
         Boolean finded = false;
 StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Runtime.getRuntime().exec("journalctl | grep 'Accepted publickey\\|Accepted password'")
+                Runtime.getRuntime().exec(String.format("findstr \"%s\" \"%s\"", PATTERN, fileName))
                         .getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
