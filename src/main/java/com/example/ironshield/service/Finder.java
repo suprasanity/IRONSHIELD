@@ -21,14 +21,14 @@ public class Finder {
     Logger logger = LoggerFactory.getLogger(Finder.class);
     public static final String PATTERN = "sshd.*session opened for user.*";
 
-    public String fileName="./file";
+    public String fileName="auth.log";
 
     @Scheduled(fixedRate = 1000000)
     public void readFile() {
         Boolean finded = false;
 StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Runtime.getRuntime().exec(String.format("grep \"%s\" \"%s\"", PATTERN, fileName))
+                Runtime.getRuntime().exec(String.format("grep -a \"%s\" \"%s\"", PATTERN, fileName))
                         .getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -40,7 +40,7 @@ StringBuilder sb = new StringBuilder();
             }
             addLineToFile(sb);
             if(finded){
-                mail.send("yann.jeanmaire@gmail.com","rapport log critique ","Bonjour yann ",new File("\\log.txt"));}
+                mail.send("yann.jeanmaire@gmail.com","rapport log critique ","Bonjour yann ",new File("log.txt"));}
 
         } catch (IOException e) {
                 logger.error(e.getMessage());
