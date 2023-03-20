@@ -28,11 +28,9 @@ public class Finder {
         Boolean finded = false;
 StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Runtime.getRuntime().exec(("grep -a ssh auth.log"))
+                Runtime.getRuntime().exec(String.format("grep -a %s %s", PATTERN, fileName))
                         .getInputStream()))) {
             String line;
-            logger.info("start");
-            logger.info(reader.readLine());
             while ((line = reader.readLine()) != null) {
                 logger.info(line);
                 sb.append(line);
