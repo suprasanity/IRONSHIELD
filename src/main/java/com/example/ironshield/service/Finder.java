@@ -21,7 +21,7 @@ public class Finder {
     public static final String PATTERN = "sshd.*session opened for user.*";
 
     public String fileName="auth.log";
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(cron = "0 0 0 ? * MON")
     public void readFile() {
         boolean found = false;
         try {
